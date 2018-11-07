@@ -11,6 +11,7 @@ The structure of the project is [Divisional](http://exploreflask.com/en/latest/b
 - [Pipenv](https://pipenv.readthedocs.io/en/latest/)
 - Python 3.7
 - Flask
+- Jinja2
 
 ## Running the application
 
