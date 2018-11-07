@@ -1,0 +1,107 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
+          integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+
+    <link rel="stylesheet" href="{{ url_for('account.static', filename='style.css') }}">
+
+    <title>{% block title %}{% endblock %}</title>
+</head>
+<body>
+<div class="jumbotron">
+    <h1 class="display-4">WeBank</h1>
+    <p class="lead">Credit is what comes in and Debit is what goes out, from a single user and largest account...</p>
+    <hr class="my-4">
+    <p>This a simple flask example of Banking Kata implementation</p>
+    <a class="btn btn-primary btn-lg" href="http://kata-log.rocks/banking-kata" role="button" target="_blank">Learn
+        more</a>
+</div>
+<main role="main" class="container">
+    <div>
+        {% with messages = get_flashed_messages() %}
+            {% if messages %}
+                <div class="alert alert-success" role="alert">
+                    <ul>
+                        {% for message in messages %}
+                            <li>{{ message }}</li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            {% endif %}
+        {% endwith %}
+    </div>
+
+    <div class="border border-dark rounded p-4">
+        <form method="post" action="{% block url %}{% endblock %}" class="center">
+            <div class="form-group">
+                <label for="amount">{% block accountLabel %}{% endblock %}</label>
+                <input type="number" class="form-control" id="amount" name="amount" aria-describedby="amountHelp"
+                       placeholder="Enter Amount">
+                <small id="amountHelp" class="form-text text-muted">Amount should be rounded to 2 decimal positions.
+                    Ex:
+                    100.00
+                </small>
+            </div>
+            <input name=_csrf_token type=hidden value="{{ csrf_token() }}">
+            <button type="submit" class="btn btn-primary">Submit</button>
+        </form>
+    </div>
+
+    <hr class="my-4">
+
+    <div class="shadow-sm p-3 mb-4 bg-info rounded">You have {{ currentBalance }}</div>
+
+    <h4 class="display-6">Transaction Summary</h4>
+
+
+    <table class="table mb-3">
+        <thead class="thead-light">
+        <tr>
+            <th scope="col">Date</th>
+            <th scope="col">Amount</th>
+            <th scope="col">Balance</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for txn in transactions %}
+
+            <tr>
+                <td>{{ txn.date }}</td>
+
+                {% if txn.type.value == 'DEBIT' %}
+                    <td class="text-danger">- {{ txn.amount }}</td>
+                {% else %}
+                    <td class="text-success">+ {{ txn.amount }}</td>
+                {% endif %}
+
+                <td>{{ txn.balance }}</td>
+            </tr>
+
+        {% endfor %}
+        </tbody>
+    </table>
+</main>
+<footer class="footer">
+    <div class="container">
+        <span class="text-muted">Place sticky footer content here.</span>
+    </div>
+</footer>
+<!-- Optional JavaScript -->
+<!-- jQuery first, then Popper.js, then Bootstrap JS -->
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+        crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"
+        integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49"
+        crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"
+        integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy"
+        crossorigin="anonymous"></script>
+</body>
+</html>
