@@ -17,6 +17,6 @@ The structure of the project is [Divisional](http://exploreflask.com/en/latest/b
 
 ```bash
   > export APP_SETTINGS="config.DevelopmentConfig"
-  > python app.py    
+  > flask run  
 
 ```
