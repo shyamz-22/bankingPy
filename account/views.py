@@ -3,9 +3,7 @@ from flask import Blueprint, render_template, request, flash, redirect, url_for
 from account import account
 
 account_view = Blueprint('account', __name__,
-                         url_prefix='/account',
-                         template_folder='templates',
-                         static_folder='static')
+                         url_prefix='/account')
 
 
 @account_view.route('/debit', methods=['GET', 'POST'])
