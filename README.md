@@ -16,13 +16,13 @@ The structure of the project is [Divisional](http://exploreflask.com/en/latest/b
 
 ## Installing mysqlclient on macOS Mojave
 
-If you get the below mentioned error while installing mysqlclient 
+If you get the following error while installing mysqlclient 
 ``` 
 clang: error: linker command failed with exit code 1 (use -v to see invocation)
 error: command 'clang' failed with exit status 1
 ```
 
-Export the below mentioned flag for the compilers to find OpenSSL in `zsh`
+Export these flags for the compilers to find OpenSSL in `zsh`
 
 ```bash
 > export LDFLAGS="-L/usr/local/opt/openssl/lib"
