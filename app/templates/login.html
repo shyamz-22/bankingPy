@@ -23,6 +23,12 @@
         more</a>
 </div>
 <main role="main" class="container">
+    {% if error %}
+        <div class="alert alert-warning" role="alert">
+            {{ error }}
+        </div>
+    {% endif %}
+
     <div class="border border-dark rounded p-4">
         <form method="post" action="{{ url_for('home.login') }}" class="center" novalidate>
             <div class="form-group">

@@ -1,7 +1,7 @@
 from flask import Blueprint, render_template, flash, redirect, url_for
 
-from account import account
-from account.forms import AccountForm
+from app.account import account
+from app.account.forms import AccountForm
 
 account_view = Blueprint('account', __name__,
                          url_prefix='/account')
