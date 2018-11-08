@@ -31,6 +31,15 @@ Export the below mentioned flag for the compilers to find OpenSSL in `zsh`
 
 To find the right flags run `brew info openSSL`
 
+
+## DB Migration
+
+`flask-migrate` is used for database migrations. Go into `app` package and do the following
+
+1. To initialize database migration for the first time execute `flask db init`
+2. To Create migration script automatically execute `flask db migrate -m "users table"`
+3. To apply the migration run `flask db upgrade`
+
 ## Running the application
 
 ```bash
