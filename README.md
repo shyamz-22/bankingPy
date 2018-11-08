@@ -43,7 +43,7 @@ To find the right flags run `brew info openSSL`
 ## Running the application
 
 ```bash
-  > export APP_SETTINGS="config.DevelopmentConfig"
+  > export APP_SETTINGS="app.config.DevelopmentConfig"
   > flask run  
 
 ```
