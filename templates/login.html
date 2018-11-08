@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
+          integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+
+    <title>{{ title }}</title>
+</head>
+<body>
+<div class="jumbotron">
+    <h1 class="display-4">WeBank</h1>
+    <p class="lead">Credit is what comes in and Debit is what goes out, from a single user and largest account...</p>
+    <hr class="my-4">
+    <p>This a simple flask example of Banking Kata implementation</p>
+    <a class="btn btn-primary btn-lg" href="http://kata-log.rocks/banking-kata" role="button" target="_blank">Learn
+        more</a>
+</div>
+<main role="main" class="container">
+    <div class="border border-dark rounded p-4">
+        <form method="post" action="{{ url_for('home.login') }}" class="center" novalidate>
+            <div class="form-group">
+                {{ form.username.label }}
+                {{ form.username(size=32, class_='form-control', **{'aria-describedby':'emailHelp'}) }}
+                {% for error in form.username.errors %}
+                    <small id="emailHelp" class="form-text text-danger">[{{ error }}]</small>
+                {% endfor %}
+
+            </div>
+            <div class="form-group">
+                {{ form.password.label }}
+                {{ form.password(size=32, class_='form-control', **{'aria-describedby':'passwordHelp'}) }}
+                {% for error in form.password.errors %}
+                    <small id="passwordHelp" class="form-text text-danger">[{{ error }}]</small>
+                {% endfor %}
+            </div>
+            {{ form.hidden_tag() }}
+            {{ form.submit(class_="btn btn-primary") }}
+        </form>
+    </div>
+
+</main>
+<footer class="footer">
+    <div class="container">
+        <span class="text-muted">WeBank Copyright 2018</span>
+    </div>
+</footer>
+<!-- Optional JavaScript -->
+<!-- jQuery first, then Popper.js, then Bootstrap JS -->
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+        crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"
+        integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49"
+        crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"
+        integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy"
+        crossorigin="anonymous"></script>
+</body>
+</html>
