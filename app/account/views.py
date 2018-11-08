@@ -1,4 +1,5 @@
 from flask import Blueprint, render_template, flash, redirect, url_for
+from flask_login import login_required
 
 from app.account import account
 from app.account.forms import AccountForm
@@ -8,6 +9,7 @@ account_view = Blueprint('account', __name__,
 
 
 @account_view.route('/debit', methods=['GET', 'POST'])
+@login_required
 def debit():
     form = AccountForm()
     if form.validate_on_submit():
@@ -19,6 +21,7 @@ def debit():
 
 
 @account_view.route('/credit', methods=['GET', 'POST'])
+@login_required
 def credit():
     form = AccountForm()
     if form.validate_on_submit():

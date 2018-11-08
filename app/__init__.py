@@ -1,6 +1,7 @@
 import os
 
 from flask import Flask
+from flask_login import LoginManager
 from flask_migrate import Migrate
 from flask_sqlalchemy import SQLAlchemy
 
@@ -8,6 +9,11 @@ app = Flask(__name__)
 app.config.from_object(os.environ['APP_SETTINGS'])
 db = SQLAlchemy(app)
 migrate = Migrate(app, db)
+
+# App Security
+login = LoginManager(app)
+login.login_view = 'home.login'
+
 
 # BluePrints and models need db, so imports cannot be before creating the db
 from app import models  # this import is for flask migrate tasks
