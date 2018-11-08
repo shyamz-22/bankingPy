@@ -1,3 +1,4 @@
+import logging
 import os
 
 from flask import Flask
@@ -5,22 +6,50 @@ from flask_login import LoginManager
 from flask_migrate import Migrate
 from flask_sqlalchemy import SQLAlchemy
 
-app = Flask(__name__)
-app.config.from_object(os.environ['APP_SETTINGS'])
-db = SQLAlchemy(app)
-migrate = Migrate(app, db)
+from app import logger
 
-# App Security
-login = LoginManager(app)
-login.login_view = 'home.login'
+logger.configure(level=os.getenv('LOG_LEVEL', logging.INFO))
+log = logging.getLogger(__name__)
+logging.getLogger('werkzeug').setLevel(logging.INFO)
+logging.getLogger('botocore').setLevel(logging.INFO)
+
+db = SQLAlchemy()
+migrate = Migrate()
+login = LoginManager()
 
 
-# BluePrints and models need db, so imports cannot be before creating the db
-from app import models  # this import is for flask migrate tasks
-from app.account.views import account_view
-from app.home.views import home_view
+def create_app():
+    app = Flask(__name__)
+    app.config.from_object(os.environ['APP_SETTINGS'])
 
-app.register_blueprint(account_view)
-app.register_blueprint(home_view)
+    # database and migration
+    db.init_app(app)
+    migrate.init_app(app, db)
+    migration_setup()
 
-models.dummy_print_for_import_optimization()
+    # security
+    login.init_app(app)
+    login.login_view = 'home.login'
+
+    register_blueprints(app)
+
+    log.info("App Setup complete")
+
+    return app
+
+
+def migration_setup():
+    from app import models
+    models.dummy_print_for_import_optimization()
+
+
+def register_blueprints(app: Flask):
+    # BluePrints and models need db, so imports cannot be before creating the db
+    # this import is for flask migrate tasks
+    from app.account.views import account_view
+    from app.home.views import home_view
+
+    app.register_blueprint(account_view)
+    app.register_blueprint(home_view)
+
+    log.info("Blueprints registered")

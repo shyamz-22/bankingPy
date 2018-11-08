@@ -1,0 +1,68 @@
+{% extends "base.html" %}
+{% block content %}
+    <div>
+        {% with messages = get_flashed_messages() %}
+            {% if messages %}
+                <div class="alert alert-success" role="alert">
+                    <ul>
+                        {% for message in messages %}
+                            <li>{{ message }}</li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            {% endif %}
+        {% endwith %}
+    </div>
+
+    <div class="border border-dark rounded p-4">
+        <form method="post" action="{% block url %}{% endblock %}" class="center" novalidate>
+            <div class="form-group">
+                <div class="form-group">
+                    <label for="amount">{% block accountLabel %}{% endblock %}</label>
+                    {{ form.amount(class_='form-control', **{'aria-describedby':'amountHelp'}) }}
+                    {% for error in form.amount.errors %}
+                        <small id="amountHelp" class="form-text text-danger">[{{ error }}]</small>
+                    {% endfor %}
+
+                </div>
+            </div>
+            {{ form.hidden_tag() }}
+            <button type="submit" class="btn btn-primary">Submit</button>
+        </form>
+    </div>
+
+    <hr class="my-4">
+
+    <div class="shadow-sm p-3 mb-4 bg-info rounded">You have {{ currentBalance }}</div>
+
+    <h4 class="display-6">Transaction Summary</h4>
+
+
+    <table class="table mb-3">
+        <thead class="thead-light">
+        <tr>
+            <th scope="col">Date</th>
+            <th scope="col">Amount</th>
+            <th scope="col">Balance</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for txn in transactions %}
+
+            <tr>
+                <td>{{ txn.date }}</td>
+
+                {% if txn.type.value == 'DEBIT' %}
+                    <td class="text-danger">- {{ txn.amount }}</td>
+                {% else %}
+                    <td class="text-success">+ {{ txn.amount }}</td>
+                {% endif %}
+
+                <td>{{ txn.balance }}</td>
+            </tr>
+
+        {% endfor %}
+        </tbody>
+    </table>
+
+{% endblock %}

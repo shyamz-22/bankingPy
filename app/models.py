@@ -1,11 +1,10 @@
-from flask_login import UserMixin
 from werkzeug.security import generate_password_hash, check_password_hash
 
-from app import db, login
+from app import db, log
 
 
 def dummy_print_for_import_optimization():
-    print('models imported')
+    log.info('models imported')
 
 
 class User(db.Model):
