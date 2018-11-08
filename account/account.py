@@ -1,4 +1,5 @@
 import datetime
+from decimal import Decimal, ROUND_UP
 from enum import Enum
 
 
@@ -8,8 +9,8 @@ class TransactionType(Enum):
 
 
 class Transaction:
-    def __init__(self, amount: float,
-                 current_balance: float,
+    def __init__(self, amount: Decimal,
+                 current_balance: Decimal,
                  txn_type: TransactionType) -> None:
         self.amount = amount
         self.balance = current_balance
@@ -17,23 +18,30 @@ class Transaction:
         self.date = datetime.datetime.now().strftime("%d.%m.%Y %H:%M:%S")
 
 
-balance = 1000.00
+__balance = Decimal(1000.00)
 transactions = []
 
 
-def record_debit(debit_amt: float) -> Transaction:
-    global balance
-    balance = balance - debit_amt
-    return record(TransactionType.DEBIT, debit_amt, balance)
+def formatted_balance():
+    global __balance
+    return Decimal(__balance).quantize(Decimal('.01'), rounding=ROUND_UP)
 
 
-def record_credit(credit_amt: float) -> Transaction:
-    global balance
-    balance = balance + credit_amt
-    return record(TransactionType.CREDIT, credit_amt, balance)
+def record_debit(debit_amt: Decimal) -> Transaction:
+    global __balance
+    __balance = __balance - debit_amt
+    return __record(TransactionType.DEBIT, debit_amt, __balance)
 
 
-def record(txn_type: TransactionType, amount: float, current_balance: float):
-    txn = Transaction(amount=amount, current_balance=current_balance, txn_type=txn_type)
+def record_credit(credit_amt: Decimal) -> Transaction:
+    global __balance
+    __balance = __balance + credit_amt
+    return __record(TransactionType.CREDIT, credit_amt, __balance)
+
+
+def __record(txn_type: TransactionType, amount: Decimal, current_balance: Decimal):
+    txn = Transaction(amount=amount,
+                      current_balance=Decimal(current_balance).quantize(Decimal('.01'), rounding=ROUND_UP),
+                      txn_type=txn_type)
     transactions.append(txn)
     return txn

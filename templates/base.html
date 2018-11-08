@@ -38,17 +38,18 @@
     </div>
 
     <div class="border border-dark rounded p-4">
-        <form method="post" action="{% block url %}{% endblock %}" class="center">
+        <form method="post" action="{% block url %}{% endblock %}" class="center" novalidate>
             <div class="form-group">
-                <label for="amount">{% block accountLabel %}{% endblock %}</label>
-                <input type="number" class="form-control" id="amount" name="amount" aria-describedby="amountHelp"
-                       placeholder="Enter Amount">
-                <small id="amountHelp" class="form-text text-muted">Amount should be rounded to 2 decimal positions.
-                    Ex:
-                    100.00
-                </small>
+                <div class="form-group">
+                    <label for="amount">{% block accountLabel %}{% endblock %}</label>
+                    {{ form.amount(class_='form-control', **{'aria-describedby':'amountHelp'}) }}
+                    {% for error in form.amount.errors %}
+                        <small id="amountHelp" class="form-text text-danger">[{{ error }}]</small>
+                    {% endfor %}
+
+                </div>
             </div>
-            <input name=_csrf_token type=hidden value="{{ csrf_token() }}">
+            {{ form.hidden_tag() }}
             <button type="submit" class="btn btn-primary">Submit</button>
         </form>
     </div>
