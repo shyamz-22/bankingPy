@@ -11,8 +11,7 @@ account_view = Blueprint('account', __name__,
 def debit():
     form = AccountForm()
     if form.validate_on_submit():
-        debit_amt = form.amount.data
-        transaction = account.record_debit(debit_amt)
+        transaction = account.record_debit(form.amount.data)
         flash(f'{transaction.amount} debited successfully.')
         return redirect(url_for('account.debit'))
     else:
@@ -23,8 +22,7 @@ def debit():
 def credit():
     form = AccountForm()
     if form.validate_on_submit():
-        credit_amt = form.amount.data
-        transaction = account.record_credit(credit_amt)
+        transaction = account.record_credit(form.amount.data)
         flash(f'{transaction.amount} credited successfully.')
         return redirect(url_for('account.credit'))
     else:
