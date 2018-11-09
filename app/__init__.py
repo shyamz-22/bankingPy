@@ -30,6 +30,8 @@ def create_app():
     # security
     login.init_app(app)
     login.login_view = 'home.login'
+    # Workaround for issue https://github.com/maxcountryman/flask-login/issues/419
+    login.login_message_category = 'login.message'
 
     register_blueprints(app)
 
@@ -45,7 +47,6 @@ def migration_setup():
 
 def register_blueprints(app: Flask):
     # BluePrints and models need db, so imports cannot be before creating the db
-    # this import is for flask migrate tasks
     from app.account.views import account_view
     from app.home.views import home_view
 

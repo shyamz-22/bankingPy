@@ -7,19 +7,22 @@ from app.models import User
 
 
 class AuthenticatedUser(UserMixin):
-    id: str
+    user_id: str
 
     def __init__(self, email) -> None:
         super().__init__()
-        self.id = email
+        self.user_id = email
+
+    def get_id(self):
+        return self.user_id
 
 
 # the flask-login extension expects that the application will configure a user loader function, that can be called
 #  to load a user given the ID
 @login.user_loader
-def load_user(id) -> Optional[AuthenticatedUser]:
-    user = User.find_by_email(id)
-    if user is None:
+def load_user(user_id: str) -> Optional[AuthenticatedUser]:
+    user = User.find_by_email(user_id)
+    if not user:
         return None
 
     return AuthenticatedUser(user.email)
