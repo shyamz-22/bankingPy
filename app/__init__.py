@@ -33,6 +33,7 @@ def create_app():
     # Workaround for issue https://github.com/maxcountryman/flask-login/issues/419
     login.login_message_category = 'login.message'
 
+    register_error_handler(app)
     register_blueprints(app)
 
     log.info("App Setup complete")
@@ -42,15 +43,19 @@ def create_app():
 
 def migration_setup():
     from app import models
-    models.dummy_print_for_import_optimization()
+
+
+def register_error_handler(app: Flask):
+    from app.errors import errors_view
+    app.register_blueprint(errors_view)
 
 
 def register_blueprints(app: Flask):
     # BluePrints and models need db, so imports cannot be before creating the db
-    from app.account.views import account_view
-    from app.home.views import home_view
+    from app.home import home_view
+    from app.account import account_view
 
-    app.register_blueprint(account_view)
     app.register_blueprint(home_view)
+    app.register_blueprint(account_view)
 
     log.info("Blueprints registered")

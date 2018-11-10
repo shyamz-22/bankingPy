@@ -1,11 +1,9 @@
-from flask import Blueprint, render_template, redirect, url_for, request
+from flask import render_template, redirect, url_for, request
 from flask_login import current_user, login_user, logout_user
 
-from app.home import user
+from app.home import user, home_view
 from app.home.forms import LoginForm
 from app.url_util import is_safe_url
-
-home_view = Blueprint('home', __name__, url_prefix='/home')
 
 
 @home_view.route('/login', methods=['GET', 'POST'])

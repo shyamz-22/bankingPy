@@ -1,11 +1,8 @@
-from flask import Blueprint, render_template, flash, redirect, url_for
+from flask import render_template, flash, redirect, url_for
 from flask_login import login_required
 
-from app.account import account
+from app.account import account, account_view
 from app.account.forms import AccountForm
-
-account_view = Blueprint('account', __name__,
-                         url_prefix='/account')
 
 
 @account_view.route('/debit', methods=['GET', 'POST'])
@@ -35,10 +32,10 @@ def credit():
 def render_credit(form: AccountForm):
     return render_template('credit.html', form=form,
                            currentBalance=account.formatted_balance(),
-                           transactions=account.transactions)
+                           transactions=account.transactions())
 
 
 def render_debit(form: AccountForm):
     return render_template('debit.html', form=form,
                            currentBalance=account.formatted_balance(),
-                           transactions=account.transactions)
+                           transactions=account.transactions())

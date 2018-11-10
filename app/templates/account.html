@@ -52,7 +52,7 @@
             <tr>
                 <td>{{ txn.date }}</td>
 
-                {% if txn.type.value == 'DEBIT' %}
+                {% if txn.type == 'DEBIT' %}
                     <td class="text-danger">- {{ txn.amount }}</td>
                 {% else %}
                     <td class="text-success">+ {{ txn.amount }}</td>
